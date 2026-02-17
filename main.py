@@ -1,8 +1,9 @@
 import sys
 
 import requests
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel
+from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QPushButton
 
 Shirota = "55.752004"
 Dolgota = "37.617734"
@@ -12,7 +13,10 @@ Zoom = "15"
 class ApiMapsApp(QWidget):
     def __init__(self):
         super().__init__()
+        self.theme_btn = None
         self.map_label = None
+        self.theme = "light"
+        self.api_key = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
         self.initUI()
 
     def initUI(self):
@@ -20,13 +24,23 @@ class ApiMapsApp(QWidget):
         self.setFixedSize(600, 450)
         self.map_label = QLabel(self)
         self.get_map()
+        self.theme_btn = QPushButton("Сменить тему", self)
+        self.theme_btn.setGeometry(470, 410, 120, 30)
+        self.theme_btn.clicked.connect(self.toggle_theme)
+        self.theme_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+    def toggle_theme(self):
+        self.theme = "dark" if self.theme == "light" else "light"
+        self.get_map()
 
     def get_map(self):
         api_server = "https://static-maps.yandex.ru/1.x/"
         params = {
             "ll": f"{Dolgota},{Shirota}",
             "z": Zoom,
-            "l": "map"
+            "l": "map",
+            "theme": self.theme,
+            "api_key": self.api_key
         }
 
         response = requests.get(api_server, params=params)

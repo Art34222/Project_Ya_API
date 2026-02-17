@@ -16,7 +16,6 @@ class ApiMapsApp(QWidget):
         self.setWindowTitle('API Maps')
         self.setFixedSize(600, 450)
         self.map_label = QLabel(self)
-        self.map_label.resize(600, 450)
         self.get_map()
 
 

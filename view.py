@@ -36,6 +36,7 @@ class MapView(QWidget):
         self.theme_btn.setGeometry(470, 410, 120, 30)
         self.theme_btn.clicked.connect(self._on_theme_click)
         self.theme_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        layout.addWidget(self.theme_btn)
 
         self.setLayout(layout)
         self.setFocus()
@@ -49,7 +50,6 @@ class MapView(QWidget):
             painter.setPen(QPen(QColor("red"), 6))
             painter.drawPoint(pixmap.width() // 2, pixmap.height() // 2)
             painter.end()
-
             self.map_label.setPixmap(pixmap)
 
     def show_error(self, message):
